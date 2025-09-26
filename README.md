@@ -27,17 +27,20 @@ pip install matplotlib seaborn pandas numpy
 すべてのサンプルで以下のインポートを使用します：
 
 ```python
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import pandas as pd
+# ===== 必要なライブラリのインポート =====
+import matplotlib.pyplot as plt  # グラフ作成の基本ライブラリ
+import seaborn as sns           # きれいなグラフを簡単に作成できるライブラリ
+import numpy as np              # 数値計算用ライブラリ（配列や数学関数）
+import pandas as pd             # データ分析用ライブラリ（表形式のデータ処理）
 
-# 日本語フォントの設定（必要に応じて）
-plt.rcParams['font.family'] = 'DejaVu Sans'
-# Windows環境では以下を使用
-# plt.rcParams['font.family'] = 'MS Gothic'
+# ===== 日本語フォントの設定 =====
+# グラフで日本語を表示するための設定
+plt.rcParams['font.family'] = 'DejaVu Sans'  # 基本フォント
+# Windows環境では以下を使用（コメントを外して使用）
+# plt.rcParams['font.family'] = 'MS Gothic'  # Windows用日本語フォント
 
-# グラフのスタイル設定
+# ===== グラフのスタイル設定 =====
+# グラフの見た目を設定（whitegrid: 白背景に薄いグリッド線）
 sns.set_style("whitegrid")
 ```
 
@@ -50,38 +53,78 @@ sns.set_style("whitegrid")
 #### 基本的な折れ線グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# linspace(開始, 終了, 個数): 等間隔の数値を生成
+# 0から10まで100個の等間隔な数値を作成
 x = np.linspace(0, 10, 100)
+# sin関数を使って、xの各値に対するy値を計算
 y = np.sin(x)
 
-# グラフの作成
+# ===== グラフの作成 =====
+# figure: 新しいグラフウィンドウを作成
+# figsize=(幅, 高さ): グラフのサイズを指定（単位: インチ）
 plt.figure(figsize=(10, 6))
+
+# plot: 折れ線グラフを描画
+# x: X軸のデータ、y: Y軸のデータ
+# label: 凡例に表示するラベル名
+# color: 線の色（'blue', 'red', 'green'など）
+# linewidth: 線の太さ（数値が大きいほど太い）
 plt.plot(x, y, label='sin(x)', color='blue', linewidth=2)
+
+# xlabel/ylabel: 軸ラベルを設定
 plt.xlabel('X軸')
 plt.ylabel('Y軸')
+
+# title: グラフのタイトルを設定
 plt.title('基本的な折れ線グラフ')
+
+# legend: 凡例を表示（labelで指定した内容が表示される）
 plt.legend()
+
+# grid: グリッド線を表示
+# True: グリッドを表示、alpha: 透明度（0-1、小さいほど薄い）
 plt.grid(True, alpha=0.3)
+
+# show: グラフを画面に表示
 plt.show()
 ```
 
 #### 複数の折れ線グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# 共通のX軸データ（0から10まで100個の点）
 x = np.linspace(0, 10, 100)
-y1 = np.sin(x)
-y2 = np.cos(x)
-y3 = np.sin(x) * 0.5
+# 3つの異なる関数でY値を計算
+y1 = np.sin(x)      # サイン関数
+y2 = np.cos(x)      # コサイン関数
+y3 = np.sin(x) * 0.5  # サイン関数の振幅を半分にしたもの
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(12, 6))
+
+# 複数のplot関数を使って、複数の線を重ねて描画
+# linestyle: 線のスタイル
+#   '-'  : 実線（デフォルト）
+#   '--' : 破線
+#   ':'  : 点線
+#   '-.' : 一点鎖線
 plt.plot(x, y1, label='sin(x)', color='blue', linewidth=2)
 plt.plot(x, y2, label='cos(x)', color='red', linewidth=2, linestyle='--')
 plt.plot(x, y3, label='0.5*sin(x)', color='green', linewidth=2, linestyle=':')
+
 plt.xlabel('X軸')
 plt.ylabel('Y軸')
 plt.title('複数の折れ線グラフ')
+
+# legend: 凡例の表示
+# loc: 凡例の位置を指定
+#   'upper right' : 右上
+#   'upper left'  : 左上
+#   'lower right' : 右下
+#   'lower left'  : 左下
+#   'center'      : 中央
 plt.legend(loc='upper right')
 plt.grid(True, alpha=0.3)
 plt.show()
@@ -90,20 +133,36 @@ plt.show()
 #### 時系列データの折れ線グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# date_range: 日付の連続データを作成
+# '2024-01-01': 開始日
+# periods=365: 365個のデータ（1年分）
+# freq='D': 頻度（'D'=Daily=日単位、'M'=Monthly=月単位、'Y'=Yearly=年単位）
 dates = pd.date_range('2024-01-01', periods=365, freq='D')
+
+# ランダムな変化を累積して時系列データを作成
+# randn(365): 平均0、標準偏差1の正規分布から365個の乱数を生成
+# cumsum(): 累積和（前の値に足し続ける）で推移を表現
+# +100: 基準値を100に設定
 values = np.cumsum(np.random.randn(365)) + 100
 
-# DataFrameの作成
+# ===== DataFrameの作成 =====
+# DataFrame: pandasの表形式データ構造
+# 辞書形式でカラム名とデータを指定
 df = pd.DataFrame({'日付': dates, '値': values})
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(14, 6))
+# DataFrameのカラムを使ってプロット
+# df['日付']: 日付カラムをX軸に
+# df['値']: 値カラムをY軸に
 plt.plot(df['日付'], df['値'], color='darkblue', linewidth=1.5)
 plt.xlabel('日付')
 plt.ylabel('値')
 plt.title('時系列データの推移')
+# xticks(rotation=45): X軸のラベルを45度回転（日付が重ならないように）
 plt.xticks(rotation=45)
+# tight_layout(): レイアウトを自動調整（ラベルが切れないように）
 plt.tight_layout()
 plt.show()
 ```
@@ -115,23 +174,40 @@ plt.show()
 #### 基本的な棒グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# カテゴリ名のリスト
 categories = ['A', 'B', 'C', 'D', 'E']
+# 各カテゴリに対応する値のリスト
 values = [23, 45, 56, 78, 32]
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 6))
+# bar: 縦棒グラフを作成
+# categories: X軸のラベル
+# values: 各棒の高さ
+# color: 棒の塗りつぶし色
+# edgecolor: 棒の枠線の色
+# linewidth: 枠線の太さ
 bars = plt.bar(categories, values, color='skyblue', edgecolor='navy', linewidth=2)
 
-# 値をバーの上に表示
+# ===== 値をバーの上に表示 =====
+# 各棒グラフの上に数値を表示するループ
 for bar in bars:
+    # get_height(): 棒の高さ（Y値）を取得
     height = bar.get_height()
+    # text: テキストを配置
+    # bar.get_x() + bar.get_width()/2.: 棒の中央のX座標
+    # height + 1: 棒の上端より少し上のY座標
+    # ha='center': 水平方向の配置（中央揃え）
+    # va='bottom': 垂直方向の配置（下揃え）
     plt.text(bar.get_x() + bar.get_width()/2., height + 1,
              f'{height}', ha='center', va='bottom')
 
 plt.xlabel('カテゴリ')
 plt.ylabel('値')
 plt.title('基本的な棒グラフ')
+# ylim: Y軸の表示範囲を設定
+# 0から最大値の1.1倍まで（上部に余白を作る）
 plt.ylim(0, max(values) * 1.1)
 plt.show()
 ```
@@ -139,17 +215,25 @@ plt.show()
 #### 横向き棒グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
 categories = ['製品A', '製品B', '製品C', '製品D', '製品E']
 sales = [156, 234, 189, 267, 198]
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 6))
+# barh: 横棒グラフを作成（hはhorizontalの意味）
+# bar()との違い: X軸とY軸が入れ替わる
 bars = plt.barh(categories, sales, color='lightgreen', edgecolor='darkgreen')
 
-# 値をバーの右に表示
+# ===== 値をバーの右に表示 =====
 for bar in bars:
+    # get_width(): 横棒の幅（X値）を取得
     width = bar.get_width()
+    # text: テキストを配置
+    # width + 3: 棒の右端より少し右のX座標
+    # bar.get_y() + bar.get_height()/2.: 棒の中央のY座標
+    # ha='left': 水平方向の配置（左揃え）
+    # va='center': 垂直方向の配置（中央揃え）
     plt.text(width + 3, bar.get_y() + bar.get_height()/2.,
              f'{width}', ha='left', va='center')
 
@@ -197,13 +281,23 @@ plt.show()
 #### 基本的な散布図
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# random.seed(42): 乱数のシード値を固定（同じ結果を再現できる）
 np.random.seed(42)
+# randn(100): 標準正規分布から100個の乱数を生成
 x = np.random.randn(100)
+# yはxと相関のあるデータ（y = 2x + ノイズ）
 y = 2 * x + np.random.randn(100) * 0.5
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 8))
+# scatter: 散布図を作成
+# x, y: 各点のX座標とY座標
+# alpha: 透明度（0-1、重なりを見やすくする）
+# s: 点のサイズ（ピクセル単位）
+# c: 点の色（'blue', 'red'など、またはカラーマップ）
+# edgecolors: 点の枠線の色
+# linewidth: 枠線の太さ
 plt.scatter(x, y, alpha=0.6, s=50, c='blue', edgecolors='black', linewidth=1)
 plt.xlabel('X値')
 plt.ylabel('Y値')
@@ -215,17 +309,24 @@ plt.show()
 #### カラーマップを使用した散布図
 
 ```python
-# データの準備
+# ===== データの準備 =====
 np.random.seed(42)
-n = 150
-x = np.random.randn(n)
-y = np.random.randn(n)
+n = 150  # データ点の個数
+x = np.random.randn(n)  # X座標
+y = np.random.randn(n)  # Y座標
+# 各点に異なる色を割り当てるための値
 colors = np.random.randn(n)
+# 各点に異なるサイズを割り当て（abs()で絶対値を取り負の値を避ける）
 sizes = np.abs(np.random.randn(n)) * 100
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(12, 8))
+# scatter: 散布図を作成
+# c=colors: 各点の色を配列で指定
+# s=sizes: 各点のサイズを配列で指定
+# cmap: カラーマップ（'viridis', 'coolwarm', 'jet'など）
 scatter = plt.scatter(x, y, c=colors, s=sizes, alpha=0.5, cmap='viridis')
+# colorbar: カラーバー（色と値の対応を表示）を追加
 plt.colorbar(scatter, label='カラー値')
 plt.xlabel('X値')
 plt.ylabel('Y値')
@@ -237,18 +338,28 @@ plt.show()
 #### 回帰線付き散布図
 
 ```python
-# データの準備
+# ===== データの準備 =====
 np.random.seed(42)
+# uniform(0, 10, 50): 0から10の範囲で一様分布の乱数を50個生成
 x = np.random.uniform(0, 10, 50)
+# y = 2.5x + ノイズ（線形関係を持つデータ）
 y = 2.5 * x + np.random.normal(0, 2, 50)
 
-# 回帰線の計算
-z = np.polyfit(x, y, 1)
+# ===== 回帰線の計算 =====
+# polyfit(x, y, 次数): 最小二乗法で多項式近似
+# 1次（直線）の近似を行い、係数を取得
+z = np.polyfit(x, y, 1)  # z[0]=傾き、z[1]=切片
+# poly1d: 多項式関数を作成
 p = np.poly1d(z)
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 8))
+# 散布図でデータ点を表示
 plt.scatter(x, y, alpha=0.7, s=100, c='coral', edgecolors='darkred', linewidth=1, label='データ点')
+# 回帰線を描画
+# p(x): xの各値に対する回帰線上のy値を計算
+# "r-": 赤色の実線（'r'=red, '-'=実線）
+# f文字列で回帰式を凡例に表示
 plt.plot(x, p(x), "r-", linewidth=2, label=f'回帰線: y={z[0]:.2f}x+{z[1]:.2f}')
 plt.xlabel('X値')
 plt.ylabel('Y値')
@@ -265,22 +376,33 @@ plt.show()
 #### 基本的なヒストグラム
 
 ```python
-# データの準備
+# ===== データの準備 =====
 np.random.seed(42)
+# normal(平均, 標準偏差, 個数): 正規分布からデータを生成
+# 平均100、標準偏差15の正規分布から1000個のデータを生成
 data = np.random.normal(100, 15, 1000)
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 6))
+# hist: ヒストグラム（度数分布図）を作成
+# data: 描画するデータ
+# bins: ビン（階級）の数。データを何個の区間に分けるか
+# 戻り値: n=各ビンの度数、bins=ビンの境界値、patches=描画されたバー
 n, bins, patches = plt.hist(data, bins=30, color='skyblue', edgecolor='black', alpha=0.7)
 
-# 平均値と中央値の線を追加
+# ===== 統計値の線を追加 =====
+# axvline: 垂直線を追加（x軸の特定の値に線を引く）
+# data.mean(): データの平均値を計算
+# linestyle='dashed': 破線
 plt.axvline(data.mean(), color='red', linestyle='dashed', linewidth=2, label=f'平均値: {data.mean():.2f}')
+# np.median(): データの中央値を計算
 plt.axvline(np.median(data), color='green', linestyle='dashed', linewidth=2, label=f'中央値: {np.median(data):.2f}')
 
 plt.xlabel('値')
 plt.ylabel('頻度')
 plt.title('正規分布のヒストグラム')
 plt.legend()
+# axis='y': Y軸方向のみグリッドを表示
 plt.grid(True, alpha=0.3, axis='y')
 plt.show()
 ```
@@ -331,15 +453,25 @@ plt.show()
 #### 基本的な円グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
+# 各セクターのラベル
 labels = ['Python', 'JavaScript', 'Java', 'C++', 'Others']
+# 各セクターのサイズ（割合）
 sizes = [35, 25, 20, 15, 5]
+# 各セクターの色（カラーコードで指定）
 colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8']
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 8))
+# pie: 円グラフを作成
+# sizes: 各セクターの大きさ
+# labels: 各セクターのラベル
+# colors: 各セクターの色
+# autopct: パーセンテージ表示のフォーマット（'%1.1f%%' = 小数点1位まで表示）
+# startangle: 最初のセクターの開始角度（時計の12時の位置が0度）
 plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
 plt.title('プログラミング言語の使用割合')
+# axis('equal'): 縦横比を等しくして真円にする
 plt.axis('equal')
 plt.show()
 ```
@@ -347,14 +479,21 @@ plt.show()
 #### 一部を強調した円グラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
 labels = ['製品A', '製品B', '製品C', '製品D', '製品E']
 sizes = [30, 25, 20, 15, 10]
 colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'orange']
-explode = (0.1, 0, 0, 0, 0)  # 最初の要素を強調
+# explode: 各セクターの引き出し量
+# 0.1 = 10%引き出し、0 = 引き出しなし
+# 最初の要素（製品A）だけを0.1引き出し
+explode = (0.1, 0, 0, 0, 0)
 
-# グラフの作成
+# ===== グラフの作成 =====
 plt.figure(figsize=(10, 8))
+# pie: 円グラフを作成
+# explode: セクターの引き出し
+# shadow: 影をつける（Trueで立体的に見える）
+# startangle: 開始角度を140度に設定
 plt.pie(sizes, explode=explode, labels=labels, colors=colors,
         autopct='%1.1f%%', shadow=True, startangle=140)
 plt.title('製品別売上構成比（製品Aを強調）')
@@ -365,19 +504,28 @@ plt.show()
 #### ドーナツグラフ
 
 ```python
-# データの準備
+# ===== データの準備 =====
 labels = ['カテゴリA', 'カテゴリB', 'カテゴリC', 'カテゴリD']
 sizes = [40, 30, 20, 10]
 colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A']
 
-# グラフの作成
+# ===== グラフの作成 =====
+# subplots: 図と軸を同時に作成
 fig, ax = plt.subplots(figsize=(10, 8))
+# pie関数の戻り値を取得
+# wedges: 各セクターのオブジェクト
+# texts: ラベルのテキストオブジェクト
+# autotexts: パーセンテージのテキストオブジェクト
+# pctdistance: パーセンテージ表示の位置（0.85 = 中心から85%の位置）
 wedges, texts, autotexts = ax.pie(sizes, labels=labels, colors=colors,
                                     autopct='%1.1f%%', startangle=90,
                                     pctdistance=0.85)
 
-# 中心に白い円を作成してドーナツ型にする
+# ===== 中心に白い円を作成してドーナツ型にする =====
+# Circle((x, y), 半径, fc=塗りつぶし色)
+# 中心(0,0)に半径0.70の白い円を作成
 centre_circle = plt.Circle((0, 0), 0.70, fc='white')
+# gca(): 現在の軸を取得し、add_artist()で円を追加
 fig.gca().add_artist(centre_circle)
 
 plt.title('ドーナツグラフのサンプル')
