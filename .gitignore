@@ -192,12 +192,18 @@ $RECYCLE.BIN/
 uv.lock
 
 # Project specific
+# Image files (exclude all except those in images/ and docs/)
 *.png
 *.jpg
 *.jpeg
 *.gif
 *.svg
 *.pdf
+!images/*.png
+!images/*.jpg
+!images/*.jpeg
+!images/*.gif
+!images/*.svg
 !docs/*.png
 !docs/*.jpg
 !docs/*.svg

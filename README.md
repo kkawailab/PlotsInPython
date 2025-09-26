@@ -52,6 +52,8 @@ sns.set_style("whitegrid")
 
 #### 基本的な折れ線グラフ
 
+![基本的な折れ線グラフ](images/line_plot.png)
+
 ```python
 # ===== データの準備 =====
 # linspace(開始, 終了, 個数): 等間隔の数値を生成
@@ -91,6 +93,8 @@ plt.show()
 ```
 
 #### 複数の折れ線グラフ
+
+![複数の折れ線グラフ](images/multiple_lines.png)
 
 ```python
 # ===== データの準備 =====
@@ -173,6 +177,8 @@ plt.show()
 
 #### 基本的な棒グラフ
 
+![基本的な棒グラフ](images/bar_chart.png)
+
 ```python
 # ===== データの準備 =====
 # カテゴリ名のリスト
@@ -246,6 +252,8 @@ plt.show()
 
 #### グループ化された棒グラフ
 
+![グループ化された棒グラフ](images/grouped_bar.png)
+
 ```python
 # データの準備
 categories = ['1月', '2月', '3月', '4月', '5月']
@@ -279,6 +287,8 @@ plt.show()
 2つの変数の関係性を表現するのに適しています。
 
 #### 基本的な散布図
+
+![基本的な散布図](images/scatter_plot.png)
 
 ```python
 # ===== データの準備 =====
@@ -337,6 +347,8 @@ plt.show()
 
 #### 回帰線付き散布図
 
+![回帰線付き散布図](images/scatter_regression.png)
+
 ```python
 # ===== データの準備 =====
 np.random.seed(42)
@@ -374,6 +386,8 @@ plt.show()
 データの分布を表現するのに適しています。
 
 #### 基本的なヒストグラム
+
+![基本的なヒストグラム](images/histogram.png)
 
 ```python
 # ===== データの準備 =====
@@ -452,6 +466,8 @@ plt.show()
 
 #### 基本的な円グラフ
 
+![基本的な円グラフ](images/pie_chart.png)
+
 ```python
 # ===== データの準備 =====
 # 各セクターのラベル
@@ -503,6 +519,8 @@ plt.show()
 
 #### ドーナツグラフ
 
+![ドーナツグラフ](images/donut_chart.png)
+
 ```python
 # ===== データの準備 =====
 labels = ['カテゴリA', 'カテゴリB', 'カテゴリC', 'カテゴリD']
@@ -540,6 +558,8 @@ plt.show()
 
 #### 基本的なヒートマップ
 
+![基本的なヒートマップ](images/heatmap.png)
+
 ```python
 # データの準備
 np.random.seed(42)
@@ -556,6 +576,8 @@ plt.show()
 ```
 
 #### 相関行列のヒートマップ
+
+![相関行列のヒートマップ](images/correlation_heatmap.png)
 
 ```python
 # データの準備
@@ -612,6 +634,8 @@ plt.show()
 データの分布と外れ値を表現するのに適しています。
 
 #### 基本的な箱ひげ図
+
+![基本的な箱ひげ図](images/box_plot.png)
 
 ```python
 # データの準備
@@ -717,6 +741,8 @@ plt.show()
 
 #### 3D曲面プロット
 
+![3D曲面プロット](images/3d_surface.png)
+
 ```python
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -769,6 +795,8 @@ plt.show()
 ## 高度なテクニック
 
 ### サブプロット（複数のグラフを1つの図に配置）
+
+![サブプロット](images/subplots.png)
 
 ```python
 # データの準備
